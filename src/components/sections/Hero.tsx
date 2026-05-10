@@ -44,8 +44,8 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const springConfig = { damping: 25, stiffness: 150 };
-  const machineX = isMobile ? 0 : useSpring(mousePosition.x, springConfig);
-  const machineY = isMobile ? 0 : useSpring(mousePosition.y, springConfig);
+  const machineX = useSpring(isMobile ? 0 : mousePosition.x, springConfig);
+  const machineY = useSpring(isMobile ? 0 : mousePosition.y, springConfig);
 
   const stats = [
     { label: "5,000+ Machines Delivered", icon: <Globe size={12} />, delay: 0.8 },
