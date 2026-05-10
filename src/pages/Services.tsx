@@ -8,6 +8,7 @@ import { Settings, Wrench, BookOpen, Truck, Package, ShieldCheck, ChevronRight }
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function Services() {
   const services = [
@@ -41,8 +42,12 @@ export default function Services() {
     }
   ];
 
-  return (
-    <div className="bg-white min-h-screen">
+   return (
+      <div className="bg-white min-h-screen">
+         <Helmet>
+            <title>Services — TRACE Sewing: Repair, Maintenance, Training</title>
+            <meta name="description" content="TRACE Sewing services: precision repair, fleet maintenance, training, and large-scale supply for industrial customers." />
+         </Helmet>
       {/* Services Hero */}
       <section className="bg-zinc-950 py-24 text-white overflow-hidden relative">
          <div className="container relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,8 +58,8 @@ export default function Services() {
                </div>
                <h1 className="text-5xl md:text-8xl font-display font-bold tracking-tighter leading-[0.85] mb-8">FIXED. <br /> <span className="text-zinc-600">MAINTAINED.</span> <br /> DEPLOYED.</h1>
                <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg mb-10">We don't just provide the hardware. We ensure your production line never stops. From urgent repairs to global logistics.</p>
-               <Button className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-none h-14 px-10 uppercase tracking-widest text-xs font-bold">
-                  Book Technical Service
+               <Button asChild className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-none h-14 px-10 uppercase tracking-widest text-xs font-bold">
+                  <Link to="/contact?inquiry=service-booking">Book Technical Service</Link>
                </Button>
             </div>
          </div>
@@ -85,8 +90,8 @@ export default function Services() {
                          </div>
                        ))}
                     </div>
-                    <Button variant="link" className="p-0 h-auto text-[10px] font-bold uppercase tracking-widest text-zinc-950 underline decoration-2 underline-offset-4">
-                       Explore Service Layer
+                    <Button asChild variant="link" className="p-0 h-auto text-[10px] font-bold uppercase tracking-widest text-zinc-950 underline decoration-2 underline-offset-4">
+                       <Link to={`/contact?inquiry=service-${s.id}`}>Explore Service Layer</Link>
                     </Button>
                  </div>
                ))}

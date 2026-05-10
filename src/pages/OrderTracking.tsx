@@ -12,33 +12,52 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
+import { getOrderById } from '@/lib/localApi';
 
 export default function OrderTracking() {
   const [orderId, setOrderId] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [trackingData, setTrackingData] = useState<any>(null);
+  const [foundOrder, setFoundOrder] = useState<any>(null);
+
+  // If orderId is provided via query param, load it
+  React.useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('orderId');
+      if (q) {
+        setOrderId(q);
+        handleSearchById(q);
+      }
+    } catch (e) {}
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!orderId) return;
+    handleSearchById(orderId);
+  };
 
+  const handleSearchById = (q: string) => {
     setIsSearching(true);
-    // Simulate API call
+    setTrackingData(null);
+    setFoundOrder(null);
     setTimeout(() => {
-      setTrackingData({
-        id: orderId.toUpperCase(),
-        status: 'In Transit',
-        lastLocation: 'Brussels Logistics Hub',
-        estimatedDelivery: 'Oct 14, 2024',
-        steps: [
-          { status: 'Processed', date: 'Oct 08, 2024, 09:30 AM', location: 'Frankfurt Manufacturing Hub', completed: true },
-          { status: 'Shipped', date: 'Oct 09, 2024, 02:45 PM', location: 'Frankfurt Central Station', completed: true },
-          { status: 'In Transit', date: 'Oct 11, 2024, 11:15 AM', location: 'Brussels Logistics Hub', completed: false, active: true },
-          { status: 'Delivered', date: 'Oct 14, 2024 (Est.)', location: 'Final Destination', completed: false },
-        ]
-      });
+      const order = getOrderById(q);
+      if (order) {
+        setFoundOrder(order);
+        setTrackingData({
+          id: order.id,
+          status: order.status,
+          lastLocation: 'Local Warehouse',
+          estimatedDelivery: new Date(Date.now() + 7 * 24 * 3600 * 1000).toDateString(),
+          steps: order.history.map((h: any) => ({ status: h.status, date: h.time, location: '—', completed: h.status !== 'Processing', active: h.status === order.status }))
+        });
+      } else {
+        setTrackingData(null);
+      }
       setIsSearching(false);
-    }, 1500);
+    }, 800);
   };
 
   return (
@@ -65,16 +84,16 @@ export default function OrderTracking() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSearch} className="flex space-x-2">
-              <Input 
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-                placeholder="Ex: TR-984210X" 
-                className="rounded-none border-zinc-200 focus-visible:ring-zinc-950 uppercase"
-              />
-              <Button type="submit" disabled={isSearching} className="rounded-none bg-zinc-950 px-8 uppercase text-[10px] font-bold tracking-widest">
-                {isSearching ? 'Synchronizing...' : 'Search Fleet'}
-              </Button>
-            </form>
+                  <Input 
+                    value={orderId}
+                    onChange={(e) => setOrderId(e.target.value)}
+                    placeholder="Ex: TR-984210X" 
+                    className="rounded-none border-zinc-200 focus-visible:ring-zinc-950 uppercase"
+                  />
+                  <Button type="submit" disabled={isSearching} className="rounded-none bg-zinc-950 px-8 uppercase text-[10px] font-bold tracking-widest">
+                    {isSearching ? 'Synchronizing...' : 'Search Order'}
+                  </Button>
+                </form>
           </CardContent>
         </Card>
 

@@ -14,26 +14,38 @@ export default function Hero() {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoaded(true);
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    if (!isMobile) {
+      const handleMouseMove = (e: MouseEvent) => {
+        setMousePosition({
+          x: (e.clientX / window.innerWidth - 0.5) * 20,
+          y: (e.clientY / window.innerHeight - 0.5) * 20,
+        });
+      };
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('resize', checkMobile);
+      };
+    }
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [isMobile]);
 
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const springConfig = { damping: 25, stiffness: 150 };
-  const machineX = useSpring(mousePosition.x, springConfig);
-  const machineY = useSpring(mousePosition.y, springConfig);
+  const machineX = isMobile ? 0 : useSpring(mousePosition.x, springConfig);
+  const machineY = isMobile ? 0 : useSpring(mousePosition.y, springConfig);
 
   const stats = [
     { label: "5,000+ Machines Delivered", icon: <Globe size={12} />, delay: 0.8 },
@@ -62,29 +74,31 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
       </div>
 
-      {/* Ambient particulate + subtle warm glows for depth */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: [0.06, 0.18, 0.06],
-              scale: [1, 1.08, 1],
-              x: [Math.random() * 80, Math.random() * -80],
-              y: [Math.random() * 80, Math.random() * -80],
-            }}
-            transition={{
-              duration: 12 + i * 3,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            className="absolute w-56 h-56 bg-amber-500/6 rounded-full blur-[120px]"
-            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-          />
-        ))}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02),transparent_40%)] pointer-events-none" />
-      </div>
+      {/* Ambient particulate + subtle warm glows for depth (disabled on small screens) */}
+      {!isMobile && (
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: [0.06, 0.18, 0.06],
+                scale: [1, 1.08, 1],
+                x: [Math.random() * 80, Math.random() * -80],
+                y: [Math.random() * 80, Math.random() * -80],
+              }}
+              transition={{
+                duration: 12 + i * 3,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="absolute w-56 h-56 bg-amber-500/6 rounded-full blur-[120px]"
+              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            />
+          ))}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02),transparent_40%)] pointer-events-none" />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 relative z-10">
         {/* Left Side: Content */}
@@ -195,10 +209,14 @@ export default function Hero() {
                   src="/assets/hero-machine.svg"
                   alt="TRACE Industrial Sewing Machine"
                   className="w-full h-full object-contain"
+                  loading={isMobile ? 'lazy' : 'eager'}
+                  decoding="async"
                 />
 
-                {/* Metallic reflection sweep */}
-                <div className="absolute inset-0 pointer-events-none metal-sweep opacity-70 mix-blend-screen" />
+                {/* Metallic reflection sweep (hide on mobile for perf) */}
+                {!isMobile && (
+                  <div className="absolute inset-0 pointer-events-none metal-sweep opacity-70 mix-blend-screen" />
+                )}
                 {/* Soft foreground shadow plane */}
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-6 bg-gradient-to-t from-black/40 to-transparent blur-[20px] -z-10 rounded-full" />
               </div>

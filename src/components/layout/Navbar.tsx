@@ -6,6 +6,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Search, Phone } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useCart } from '@/CartContext';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -25,10 +26,13 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop Machines', href: '/catalog' },
+    { name: 'Track Order', href: '/track-order' },
     { name: 'Services', href: '/services' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
+
+  const { totalItems } = useCart();
 
   return (
     <nav
@@ -75,7 +79,7 @@ export default function Navbar() {
             <Link to="/cart" className="p-2 text-zinc-500 hover:text-zinc-900 transition-colors relative">
               <ShoppingCart size={20} />
               <span className="absolute top-0 right-0 bg-zinc-950 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                0
+                {totalItems}
               </span>
             </Link>
             <Button variant="outline" className="rounded-none border-zinc-950 px-6 font-semibold uppercase text-xs tracking-widest hover:bg-zinc-950 hover:text-white transition-all">
@@ -88,7 +92,7 @@ export default function Navbar() {
             <Link to="/cart" className="p-2 text-zinc-500 relative">
               <ShoppingCart size={20} />
               <span className="absolute top-0 right-0 bg-zinc-950 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                0
+                {totalItems}
               </span>
             </Link>
             <button

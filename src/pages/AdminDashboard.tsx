@@ -37,6 +37,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { PRODUCTS } from '@/constants';
 import { cn, formatCurrency } from '@/lib/utils';
+import { Helmet } from 'react-helmet-async';
 import { 
   BarChart, 
   Bar, 
@@ -63,6 +64,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-20">
+         <Helmet>
+            <title>Admin Dashboard — TRACE Sewing</title>
+            <meta name="description" content="Administrative control center for fleet, orders, and operational telemetry." />
+         </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Admin Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">

@@ -6,11 +6,49 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Phone, MapPin, Search, Send, MessageSquare } from 'lucide-react';
+import React from 'react';
 import { motion } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { saveInquiry } from '@/lib/localApi';
+import { Helmet } from 'react-helmet-async';
 
 export default function Contact() {
-  return (
-    <div className="bg-white min-h-screen">
+   const [searchParams] = useSearchParams();
+   const inquiry = searchParams.get('inquiry') || '';
+   const navigate = useNavigate();
+
+   const [name, setName] = useState('');
+   const [company, setCompany] = useState('');
+   const [subject, setSubject] = useState(inquiry ? `Inquiry: ${inquiry}` : 'Unit Inquiry');
+   const [message, setMessage] = useState(inquiry ? `Hi, I'm interested in ${inquiry}. Please provide more info.` : '');
+
+   useEffect(() => {
+      if (inquiry) {
+         setSubject(`Inquiry: ${inquiry}`);
+         setMessage(`Hi, I'm interested in ${inquiry}. Please provide more info.`);
+      }
+   }, [inquiry]);
+
+   const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+         saveInquiry({ name, company, subject, message });
+         toast.success('Transmission received — we will respond shortly.');
+         setName(''); setCompany(''); setSubject(''); setMessage('');
+         navigate('/');
+      } catch (err) {
+         toast.error('Failed to save transmission locally.');
+      }
+   };
+
+   return (
+      <div className="bg-white min-h-screen">
+         <Helmet>
+            <title>Contact — TRACE Sewing Support & Sales</title>
+            <meta name="description" content="Contact TRACE Sewing for quotes, technical support, and global service for industrial sewing equipment." />
+         </Helmet>
       {/* Hero Header */}
       <div className="bg-zinc-50 border-b border-zinc-200 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,20 +126,20 @@ export default function Contact() {
                     <h2 className="text-3xl font-display font-bold italic uppercase tracking-tighter">Submit a Specification</h2>
                  </div>
 
-                 <form className="space-y-8">
+                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                        <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Full Name</label>
-                          <Input className="bg-zinc-900 border-zinc-800 rounded-none h-12 text-white focus-visible:ring-zinc-700" placeholder="Required" />
+                          <Input value={name} onChange={(e) => setName(e.target.value)} className="bg-zinc-900 border-zinc-800 rounded-none h-12 text-white focus-visible:ring-zinc-700" placeholder="Required" />
                        </div>
                        <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Company Identity</label>
-                          <Input className="bg-zinc-900 border-zinc-800 rounded-none h-12 text-white focus-visible:ring-zinc-700" placeholder="Optional" />
+                          <Input value={company} onChange={(e) => setCompany(e.target.value)} className="bg-zinc-900 border-zinc-800 rounded-none h-12 text-white focus-visible:ring-zinc-700" placeholder="Optional" />
                        </div>
                     </div>
                     <div className="space-y-2">
                        <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Transmission Subject</label>
-                       <select className="w-full bg-zinc-900 border-zinc-800 rounded-none h-12 text-white px-3 outline-none text-xs font-bold uppercase tracking-widest">
+                       <select value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full bg-zinc-900 border-zinc-800 rounded-none h-12 text-white px-3 outline-none text-xs font-bold uppercase tracking-widest">
                           <option>Unit Inquiry</option>
                           <option>Fleet Wholesale Quote</option>
                           <option>Maintenance Request</option>
@@ -111,11 +149,13 @@ export default function Contact() {
                     <div className="space-y-2">
                        <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Specifications / Message</label>
                        <textarea 
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         className="w-full bg-zinc-900 border-zinc-800 rounded-none h-40 text-white p-4 outline-none text-sm focus:ring-1 focus:ring-zinc-700"
                         placeholder="Detailed inquiry..."
                        ></textarea>
                     </div>
-                    <Button className="w-full bg-white text-zinc-950 hover:bg-zinc-200 rounded-none h-16 uppercase tracking-[0.2em] font-bold text-xs group">
+                    <Button type="submit" className="w-full bg-white text-zinc-950 hover:bg-zinc-200 rounded-none h-16 uppercase tracking-[0.2em] font-bold text-xs group">
                        Initialize Transmission <Send size={16} className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Button>
                  </form>

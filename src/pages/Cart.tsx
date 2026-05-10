@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 
 export default function Cart() {
   const { items, removeFromCart, updateQuantity, totalItems } = useCart();
@@ -39,6 +40,10 @@ export default function Cart() {
 
   return (
     <div className="bg-white min-h-screen py-16">
+      <Helmet>
+        <title>Your Cart — TRACE Sewing</title>
+        <meta name="description" content="Review your selected industrial sewing machines and prepare for deployment." />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center space-x-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-8">
           <div className="w-8 h-[1px] bg-zinc-200"></div>

@@ -5,6 +5,7 @@
 
 import { motion } from 'motion/react';
 import { Target, Users, Factory, Award, ChevronRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export default function About() {
   const fadeInUp = {
@@ -14,8 +15,12 @@ export default function About() {
     transition: { duration: 0.6 }
   };
 
-  return (
-    <div className="bg-white min-h-screen">
+   return (
+      <div className="bg-white min-h-screen">
+         <Helmet>
+            <title>About — TRACE Sewing: Industrial Sewing Machines</title>
+            <meta name="description" content="TRACE Sewing — five decades of industrial sewing innovation, precision engineering, and global service." />
+         </Helmet>
       {/* Editorial Hero */}
       <section className="relative h-[60vh] flex items-center bg-black overflow-hidden">
         <div className="absolute inset-0 grayscale opacity-40">
@@ -34,6 +39,9 @@ export default function About() {
            >
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-400 mb-6 block">Established 1974</span>
               <h1 className="text-5xl md:text-8xl font-display font-bold tracking-tighter text-white leading-none mb-8">BORN FROM <br /> PRECISION</h1>
+                 <div className="mt-6">
+                   <a href="/contact" className="inline-block bg-white text-zinc-950 rounded-none h-12 px-6 uppercase tracking-widest font-bold">Contact Sales</a>
+                 </div>
            </motion.div>
         </div>
       </section>

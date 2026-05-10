@@ -1,0 +1,59 @@
+[
+  {
+    "id": "tr-1000-pro",
+    "name": "TRACE 1000 PRO",
+    "price": 1299,
+    "description": "The ultimate workhorse for modern textile factories. Precision stitching meets unparalleled speed.",
+    "images": [
+      "https://images.unsplash.com/photo-1605280263929-1c42c62ef169?auto=format&fit=crop&q=80&w=1200",
+      "https://images.unsplash.com/photo-1584184924103-e31005b8e3f2?auto=format&fit=crop&q=80&w=1200"
+    ],
+    "category": "Industrial",
+    "brand": "TRACE",
+    "stockStatus": "In Stock",
+    "rating": 4.9,
+    "reviewsCount": 124
+  },
+  {
+    "id": "tr-v8-stitch",
+    "name": "V8 Master Stitch",
+    "price": 899,
+    "description": "Professional 4-thread overlocker for clean finishes and durable seams on any fabric.",
+    "images": [
+      "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&q=80&w=1200"
+    ],
+    "category": "Overlock",
+    "brand": "TRACE",
+    "stockStatus": "Low Stock",
+    "rating": 4.8,
+    "reviewsCount": 42
+  },
+  {
+    "id": "tr-e95-elite",
+    "name": "TRACE E95 Elite Embroidery",
+    "price": 3499,
+    "description": "15-needle commercial embroidery system with AI-assisted pathing and intelligent thread break detection.",
+    "images": [
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1200"
+    ],
+    "category": "Embroidery",
+    "brand": "TRACE",
+    "stockStatus": "In Stock",
+    "rating": 5.0,
+    "reviewsCount": 18
+  },
+  {
+    "id": "tr-home-s1",
+    "name": "TRACE Home Studio S1",
+    "price": 499,
+    "description": "Heavy-duty performance in a compact frame. Perfect for boutique designers and home-based businesses.",
+    "images": [
+      "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200"
+    ],
+    "category": "Home",
+    "brand": "TRACE",
+    "stockStatus": "In Stock",
+    "rating": 4.7,
+    "reviewsCount": 231
+  }
+]

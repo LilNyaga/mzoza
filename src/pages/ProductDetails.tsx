@@ -79,6 +79,32 @@ export default function ProductDetails() {
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.images[0]} />
       </Helmet>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.name,
+          "image": product.images,
+          "description": product.description,
+          "sku": product.id,
+          "brand": {
+            "@type": "Brand",
+            "name": product.brand
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": product.price,
+            "availability": product.stockStatus === 'In Stock' ? 'https://schema.org/InStock' : 'https://schema.org/LimitedAvailability',
+            "url": window.location.href
+          },
+          "aggregateRating": product.rating ? {
+            "@type": "AggregateRating",
+            "ratingValue": product.rating,
+            "reviewCount": product.reviewsCount
+          } : undefined
+        })
+      }} />
       {/* Breadcrumb */}
       <div className="bg-zinc-50 py-4 border-b border-zinc-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

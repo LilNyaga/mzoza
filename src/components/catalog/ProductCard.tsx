@@ -9,6 +9,8 @@ import { ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatCurrency } from '@/lib/utils';
+import { useCart } from '@/CartContext';
+import { toast } from 'sonner';
 import { Product } from '@/types';
 
 interface ProductCardProps {
@@ -17,6 +19,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, layout = 'grid' }: ProductCardProps) {
+  const { addToCart } = useCart();
   if (layout === 'list') {
     return (
       <motion.div 
@@ -61,8 +64,8 @@ export default function ProductCard({ product, layout = 'grid' }: ProductCardPro
             <Button asChild className="rounded-none bg-zinc-900 h-12 px-8 uppercase tracking-widest text-[10px] font-bold">
               <Link to={`/product/${product.id}`}>View Series</Link>
             </Button>
-            <Button variant="outline" className="rounded-none border-zinc-200 h-12 px-8 tracking-wider text-[11px] font-bold hover:bg-zinc-50">
-              Inquiry
+            <Button asChild variant="outline" className="rounded-none border-zinc-200 h-12 px-8 tracking-wider text-[11px] font-bold hover:bg-zinc-50">
+              <Link to={`/contact?inquiry=${product.id}`}>Inquiry</Link>
             </Button>
           </div>
         </div>
@@ -104,9 +107,20 @@ export default function ProductCard({ product, layout = 'grid' }: ProductCardPro
           <span className="text-lg font-mono font-bold">{formatCurrency(product.price)}</span>
         </div>
         <div className="flex-grow"></div>
-        <Button asChild className="w-full rounded-none bg-zinc-900 h-10 mt-6 tracking-wider text-[11px] font-bold">
-          <Link to={`/product/${product.id}`}>View Details</Link>
-        </Button>
+        <div className="flex gap-3 items-center">
+          <Button asChild className="flex-1 rounded-none bg-zinc-900 h-10 mt-6 tracking-wider text-[11px] font-bold">
+            <Link to={`/product/${product.id}`}>View Details</Link>
+          </Button>
+          <button
+            onClick={() => {
+              addToCart(product.id, 1);
+              toast.success(`${product.name} added to cart`);
+            }}
+            className="mt-6 inline-flex items-center justify-center border border-zinc-200 h-10 px-4 rounded-none text-[11px] font-bold"
+          >
+            Add
+          </button>
+        </div>
       </div>
     </motion.div>
   );

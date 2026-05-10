@@ -12,8 +12,10 @@ import { Badge } from '@/components/ui/badge';
 import { ShieldCheck, Truck, CreditCard } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { createOrder } from '@/lib/localApi';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function Checkout() {
   const { items, clearCart } = useCart();
@@ -32,14 +34,17 @@ export default function Checkout() {
     setIsProcessing(true);
     
     // Mock processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      clearCart();
-      toast.success("Deployment Successful", {
-        description: "Your machinery order is being processed for dispatch."
-      });
-      navigate('/');
-    }, 2000);
+      setTimeout(() => {
+         // Create order record locally
+         const orderItems = cartProducts.map(item => ({ productId: item.productId, quantity: item.quantity, name: item.product.name, price: item.product.price }));
+         const order = createOrder(orderItems, { customerName: '', email: '' });
+         setIsProcessing(false);
+         clearCart();
+         toast.success('Deployment Successful', {
+            description: `Order ${order.id} is processing. Track your order.`
+         });
+         navigate(`/track-order?orderId=${order.id}`);
+      }, 1200);
   };
 
   if (items.length === 0) {
@@ -55,6 +60,10 @@ export default function Checkout() {
 
   return (
     <div className="bg-white min-h-screen py-16">
+         <Helmet>
+            <title>Checkout — TRACE Sewing Deployment</title>
+            <meta name="description" content="Secure checkout and deployment logistics for industrial sewing machines and equipment." />
+         </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Checkout Form */}
