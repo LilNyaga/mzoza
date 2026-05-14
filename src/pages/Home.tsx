@@ -107,12 +107,12 @@ export default function Home() {
                       <Link to={CATEGORY_LINKS[category.id] ?? '/catalog'}>
                         <div className="relative h-[200px] md:h-[280px] overflow-hidden bg-white border border-sky-200 shadow-sm">
                           {/* Category Image */}
-                          <img
-                            src={category.image}
-                            alt={category.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            referrerPolicy="no-referrer"
-                          />
+<img
+                             src={category.image}
+                             alt={category.name}
+                             className="w-full h-full object-cover"
+                             referrerPolicy="no-referrer"
+                           />
                           {/* Dark overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 {/* Bottom content */}
@@ -203,23 +203,7 @@ export default function Home() {
 
 
       {/* WhatsApp CTA */}
-      <section className="bg-white py-20 border-y border-sky-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-sky-600 p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-8">
-            <div className="relative z-10 max-w-xl">
-               <h2 className="text-3xl md:text-5xl text-white font-display font-bold tracking-tighter leading-none mb-6 italic uppercase">Need Expert Advice? <br /><span className="text-sky-100 italic">Chat with a Specialist.</span></h2>
-               <p className="text-sky-100 text-sm md:text-base leading-relaxed">Our technicians are available 24/7 to help you choose the right machinery for your production scale or business model.</p>
-            </div>
-            <div className="relative z-10">
-               <Button className="bg-white text-sky-700 hover:bg-sky-50 rounded-none h-16 px-12 uppercase tracking-widest font-bold text-sm shadow-lg">
-                 WhatsApp Inquiry
-               </Button>
-            </div>
-            {/* Background elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
-          </div>
-        </div>
-      </section>
+     
     </div>
   );
 }

@@ -68,7 +68,13 @@ export default function ProductDetails() {
     });
   };
 
+  const reviewsCount = product.reviewsCount || 0;
+
   const relatedProducts = PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
+
+  const features = product.features || [];
+  const specs = product.specs || {};
+  const badges = product.badges || [];
 
   return (
     <div className="bg-white min-h-screen">
@@ -137,7 +143,7 @@ export default function ProductDetails() {
                 />
               </AnimatePresence>
               <div className="absolute top-6 left-6 flex flex-col gap-2">
-                 {product.badges?.map(b => (
+                 {badges.map(b => (
                    <Badge key={b} className="bg-zinc-950 text-white rounded-none border-none text-[10px] font-bold uppercase px-4 py-1">{b}</Badge>
                  ))}
               </div>
@@ -163,7 +169,7 @@ export default function ProductDetails() {
                     <Star key={i} size={14} fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'} />
                   ))}
                </div>
-               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">({product.reviewsCount} Verified Deployments)</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">({reviewsCount} Verified Deployments)</span>
              </div>
              
              <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter mb-2">{product.name}</h1>
@@ -265,7 +271,7 @@ export default function ProductDetails() {
            <div className="max-w-4xl">
              <h2 className="text-4xl font-display font-bold tracking-tighter mb-12">Technical Specifications</h2>
              <div className="border-t border-zinc-100 divide-y divide-zinc-100">
-                {Object.entries(product.specs).map(([key, value]) => (
+                {Object.entries(specs).map(([key, value]) => (
                   <div key={key} className="py-4 grid grid-cols-2">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{key}</span>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-900">{value}</span>
@@ -298,7 +304,7 @@ export default function ProductDetails() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   {product.features.map((feat, i) => (
+                   {features.map((feat, i) => (
                      <div key={i} className="flex items-center space-x-3 p-4 bg-zinc-50 border border-zinc-100">
                         <CheckCircle2 size={16} className="text-zinc-950" />
                         <span className="text-[10px] font-bold uppercase tracking-widest">{feat}</span>

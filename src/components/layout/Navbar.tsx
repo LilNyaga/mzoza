@@ -16,32 +16,33 @@ export default function Navbar() {
    const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
    const { totalItems } = useCart();
 
-   const navLinks = [
-     { name: 'Home', href: '/' },
-     { 
-       name: 'Products', 
-       href: '/catalog', 
-       hasDropdown: true,
-       submenu: [
-         { name: 'Long Arm Quilting Machines', href: '/catalog/long-arm-quilting-machines' },
-         { name: 'Sewing & Quilting Machines', href: '/catalog/sewing-quilting-machines' },
-         { name: 'Serger & Overlock Machines', href: '/catalog/serger-overlock-machines' },
-         { name: 'Coverstitch Machines', href: '/catalog/coverstitch-machines' },
-         { name: 'Industrial Machines', href: '/catalog/industrial-machines' },
-         { name: 'Embroidery Machines', href: '/catalog/embroidery-machines' },
-         { name: 'Presser Feet', href: '/catalog/presser-feet' },
-         { name: 'Serger Feet', href: '/catalog/serger-feet' },
-         { name: 'Bobbins', href: '/catalog/bobbins' },
-         { name: 'Bobbin Cases', href: '/catalog/bobbin-cases' },
-         { name: 'Foot Controls', href: '/catalog/foot-controls' },
-         { name: 'Power Cords', href: '/catalog/power-cords' }
-       ]
-     },
-     { name: 'Track Order', href: '/track-order' },
-     { name: 'Services and repair', href: '/services' },
-     { name: 'About', href: '/about' },
-     { name: 'Brands', href: '/contact' },
-   ];
+const navLinks = [
+      { name: 'Home', href: '/' },
+      {
+        name: 'Products',
+        href: '/catalog',
+        hasDropdown: true,
+        submenu: [
+          { name: 'Sewing Machines', href: '/catalog/sewing-machines' },
+          { name: 'Embroidery Machines', href: '/catalog/embroidery-machines' },
+          { name: 'Sergers & Overlocks', href: '/catalog/sergers' },
+          { name: 'Long Arm Quilting Machines', href: '/catalog/long-arm-quilting-machines' },
+          { name: 'Sewing Furniture', href: '/catalog/sewing-furniture' },
+          { name: 'Coverstitch Machines', href: '/catalog/coverstitch-machines' },
+          { name: 'Industrial Machines', href: '/catalog/industrial' },
+          { name: 'Presser Feet', href: '/catalog/presser-feet' },
+          { name: 'Serger Feet', href: '/catalog/serger-feet' },
+          { name: 'Bobbins', href: '/catalog/bobbins' },
+          { name: 'Bobbin Cases', href: '/catalog/bobbin-cases' },
+          { name: 'Foot Controls', href: '/catalog/foot-controls' },
+          { name: 'Power Cords', href: '/catalog/power-cords' }
+        ]
+      },
+      { name: 'Track Order', href: '/track-order' },
+      { name: 'Services and repair', href: '/services' },
+      { name: 'About', href: '/about' },
+      { name: 'Brands', href: '/contact' },
+    ];
 
   return (
     <nav
@@ -176,57 +177,90 @@ export default function Navbar() {
         </div>
       </div>
 
-       {/* Mobile Nav Overlay */}
-       <AnimatePresence>
-         {isOpen && (
-           <motion.div
-             initial={{ opacity: 0, y: -20 }}
-             animate={{ opacity: 1, y: 0 }}
-             exit={{ opacity: 0, y: -20 }}
-             className="absolute top-full left-0 right-0 bg-white md:hidden overflow-hidden shadow-lg rounded-b-3xl"
-           >
-             <div className="px-4 pt-4 pb-6 space-y-3">
-               {navLinks.map((link) => (
-                 <>
-                   {link.hasDropdown ? (
-                     <>
-                       <div className="flex items-center justify-between w-full py-2 border-b border-sky-50" onClick={() => setMobileProductsOpen(!mobileProductsOpen)}>
-                         <span className="text-base font-medium text-slate-800 hover:text-[#00539E] transition-colors">{link.name}</span>
-                         <ChevronDown size={16} className={`transition-transform duration-200 ${mobileProductsOpen ? 'rotate-180' : ''}`} />
-                       </div>
-                       {mobileProductsOpen && link.submenu?.map((subLink) => (
-                         <Link
-                           key={subLink.name}
-                           to={subLink.href}
-                           onClick={() => setIsOpen(false)}
-                           className="block pl-6 text-base font-medium text-slate-800 py-1 hover:text-[#00539E] transition-colors"
-                         >
-                           {subLink.name}
-                         </Link>
-                       ))}
-                     </>
-                   ) : (
-                     <Link
-                       key={link.name}
-                       to={link.href}
-                       onClick={() => setIsOpen(false)}
-                       className="block text-base font-medium text-slate-800 py-2 border-b border-sky-50 hover:text-[#00539E] transition-colors"
-                     >
-                       {link.name}
-                     </Link>
-                   )}
-                 </>
-               ))}
-               <div className="pt-3 space-y-3">
-                 <div className="flex items-center justify-center space-x-2 text-slate-500 text-sm">
-                   <Phone size={14} />
-                   <span>Call Us: +1 (234) 567-890</span>
-                 </div>
-               </div>
-             </div>
-           </motion.div>
-         )}
-       </AnimatePresence>
+{/* Mobile Nav Slider from Top */}
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                onClick={() => setIsOpen(false)}
+              />
+              <motion.div
+                initial={{ y: '-100%', opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: '-100%', opacity: 0 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed top-0 left-0 right-0 bg-white z-50 md:hidden shadow-lg"
+              >
+                {/* Mobile Header */}
+                <div className="px-4 pt-6 pb-4 flex items-center justify-between border-b border-zinc-100">
+                  <div className="flex items-center space-x-2">
+                    <div className="bg-[#00539E] text-white w-8 h-8 flex items-center justify-center font-bold text-lg tracking-tighter rounded-lg">J</div>
+                    <span className="text-lg font-bold text-zinc-950 uppercase tracking-wider">Menu</span>
+                  </div>
+                  <button onClick={() => setIsOpen(false)} className="p-1.5 text-zinc-500 hover:text-zinc-950 transition-colors">
+                    <X size={22} />
+                  </button>
+                </div>
+
+                <div className="px-4 pt-2 pb-6 space-y-1 max-h-[calc(100vh-70px)] overflow-y-auto">
+                  {navLinks.map((link) => (
+                    <>
+                      {link.hasDropdown ? (
+                        <>
+                          <div
+                            className="flex items-center justify-between w-full py-3 px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-[#00539E] transition-colors cursor-pointer"
+                            onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                          >
+                            <span className="uppercase tracking-wide">{link.name}</span>
+                            <ChevronDown
+                              size={16}
+                              className={`transition-transform duration-200 ${mobileProductsOpen ? 'rotate-180' : ''}`}
+                            />
+                          </div>
+                          {mobileProductsOpen &&
+                            link.submenu?.map((subLink) => (
+                              <Link
+                                key={subLink.name}
+                                to={subLink.href}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setMobileProductsOpen(false);
+                                }}
+                                className="block pl-8 py-2 text-sm text-zinc-500 hover:bg-zinc-50 hover:text-[#00539E] transition-colors"
+                              >
+                                {subLink.name}
+                              </Link>
+                            ))}
+                        </>
+                      ) : (
+                        <Link
+                          key={link.name}
+                          to={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className="block py-3 px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-[#00539E] transition-colors"
+                        >
+                          {link.name}
+                        </Link>
+                      )}
+                    </>
+                  ))}
+
+                  <div className="pt-4 mx-3 border-t border-zinc-100">
+                    <div className="flex items-center justify-center space-x-2 text-zinc-400 text-sm">
+                      <Phone size={14} />
+                      <span>Call Us: +1 (234) 567-890</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
     </nav>
   );
 }

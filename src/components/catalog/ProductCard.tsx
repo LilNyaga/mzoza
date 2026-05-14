@@ -29,19 +29,19 @@ export default function ProductCard({ product, layout = 'grid' }: ProductCardPro
         className="flex flex-col md:flex-row gap-8 bg-white border border-zinc-100 p-6 group hover:border-zinc-300 transition-colors"
       >
         <div className="w-full md:w-64 h-64 shrink-0 overflow-hidden bg-zinc-50 relative">
-          <img 
-            src={product.images[0]} 
-            alt={product.name} 
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
-             {product.badges?.map(b => (
-              <Badge key={b} className="bg-amber-400 text-zinc-950 rounded-none border-none text-[9px] px-2 py-1 font-bold">{b}</Badge>
-             ))}
-          </div>
-        </div>
-        <div className="flex-grow flex flex-col justify-between py-2">
+<img
+             src={product.images[0]}
+             alt={product.name}
+             className="w-full h-full object-cover"
+             referrerPolicy="no-referrer"
+           />
+           <div className="absolute top-2 left-2 flex flex-col gap-1">
+              {product.badges?.map(b => (
+               <Badge key={b} className="bg-amber-400 text-zinc-950 rounded-none border-none text-[9px] px-2 py-1 font-bold">{b}</Badge>
+              ))}
+           </div>
+         </div>
+         <div className="flex-grow flex flex-col justify-between py-2">
           <div>
             <div className="flex justify-between items-start mb-2">
               <div>
@@ -81,12 +81,12 @@ export default function ProductCard({ product, layout = 'grid' }: ProductCardPro
       className="bg-white border border-zinc-100 flex flex-col group hover:border-zinc-300 transition-colors"
     >
       <div className="aspect-square relative overflow-hidden bg-zinc-50">
-        <img 
-          src={product.images[0]} 
-          alt={product.name} 
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-          referrerPolicy="no-referrer"
-        />
+<img
+           src={product.images[0]}
+           alt={product.name}
+           className="w-full h-full object-cover"
+           referrerPolicy="no-referrer"
+         />
         <div className="absolute top-4 left-4 flex flex-col gap-1">
            {product.badges?.map(b => (
              <Badge key={b} className="bg-zinc-950 text-white rounded-none border-none text-[8px] px-2">{b}</Badge>

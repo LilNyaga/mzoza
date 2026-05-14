@@ -6,21 +6,25 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'Industrial' | 'Home' | 'Embroidery' | 'Overlock' | 'Long Arm Quilting Machines' | 'Coverstitch Machines' | 'Presser Feet' | 'Serger Feet' | 'Bobbins' | 'Bobbin Cases' | 'Foot Controls' | 'Power Cords';
+  category: 'Industrial' | 'Home' | 'Embroidery' | 'Overlock' | 'Long Arm Quilting Machines' | 'Coverstitch Machines' | 'Presser Feet' | 'Serger Feet' | 'Bobbins' | 'Bobbin Cases' | 'Foot Controls' | 'Power Cords' | 'Sewing Machines' | 'Sergers & Overlocks' | 'Sewing Furniture';
   brand: string;
   price: number;
   description: string;
-  features: string[];
-  specs: Record<string, string>;
+  features?: string[];
+  specs?: Record<string, string>;
   images: string[];
   stockStatus: 'In Stock' | 'Low Stock' | 'Out of Stock';
-  badges?: string[];
+  badges?: string[] | null;
   rating: number;
-  reviewsCount: number;
+  reviewsCount?: number;
   videoUrl?: string;
-  usageType: 'Commercial' | 'Residential';
-  powerType: 'Servo Motor' | 'Clutch Motor' | 'Electric' | 'Manual';
-  speed: number; // SPM
+  usageType?: 'Commercial' | 'Residential';
+  powerType?: 'Servo Motor' | 'Clutch Motor' | 'Electric' | 'Manual';
+  speed?: number; // SPM
+  discount?: number;
+  type?: string;
+  url?: string;
+  inStock?: boolean;
 }
 
 export interface Category {

@@ -7,8 +7,43 @@ import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube, Send, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useEffect, useRef, useState } from 'react';
+
+const BRANDS = [
+  { name: 'Baby Lock', color: '#E67E22' },
+  { name: 'Grace', color: '#27AE60' },
+  { name: 'Janome', color: '#2980B9' },
+  { name: 'Handi Quilter', color: '#8E44AD' },
+  { name: 'Viking', color: '#E74C3C' },
+  { name: 'Arrow & Kangaroo', color: '#1ABC9C' },
+  { name: 'King Quilter', color: '#F39C12' },
+  { name: 'Bernina', color: '#2C3E50' },
+  { name: 'Singer', color: '#C0392B' },
+  { name: 'Reliable', color: '#7F8C8D' },
+  { name: 'Brother', color: '#2980B9' },
+  { name: 'Horn of America', color: '#6C3483' },
+];
 
 export default function Footer() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const scroll = () => {
+      if (isPaused) return;
+      container.scrollLeft += 1;
+      if (container.scrollLeft >= container.scrollWidth / 2) {
+        container.scrollLeft = 0;
+      }
+    };
+
+    const interval = setInterval(scroll, 40);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
   return (
     <footer className="bg-[#00539E] text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,14 +106,43 @@ export default function Footer() {
             <h4 className="text-white text-sm font-bold uppercase tracking-widest mb-6">Newsletter</h4>
             <p className="text-xs mb-4 text-white/80">Get updates on new inventory and wholesale offers.</p>
             <div className="flex space-x-2">
-              <Input 
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-white/30 rounded-none" 
+              <Input
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-white/30 rounded-none"
                 placeholder="Email Address"
               />
               <Button size="icon" className="bg-white text-[#00539E] hover:bg-white/90 rounded-none shrink-0">
                 <Send size={18} />
               </Button>
             </div>
+          </div>
+        </div>
+
+        {/* Brand Slideshow */}
+        <div className="mb-12 overflow-hidden">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/70 mb-4 text-center">Trusted Brand Partners</h4>
+          <div
+            ref={scrollRef}
+            className="flex overflow-x-hidden gap-6 pb-2 cursor-default select-none"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {/* Double the brands for seamless loop */}
+            {[...BRANDS, ...BRANDS].map((brand, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 inline-flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/20 hover:bg-white/20 transition-colors min-w-[140px]"
+              >
+                <div
+                  className="w-9 h-9 rounded-md flex items-center justify-center mr-3 shrink-0"
+                  style={{ backgroundColor: brand.color }}
+                >
+                  <span className="text-white font-bold text-xs">{brand.name.charAt(0)}</span>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/90 whitespace-nowrap">
+                  {brand.name}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
