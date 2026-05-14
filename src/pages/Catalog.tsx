@@ -3,36 +3,54 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo } from 'react';
-import { Search, LayoutGrid, List, SlidersHorizontal, Filter, X } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Search, LayoutGrid, List, Filter, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CATEGORIES, PRODUCTS } from '@/constants';
 import ProductCard from '@/components/catalog/ProductCard';
 import { motion, AnimatePresence } from 'motion/react';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
+import { useParams } from 'react-router-dom';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Catalog() {
+  const { category } = useParams<{ category?: string }>();
   const [search, setSearch] = useState('');
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [showFilters, setShowFilters] = useState(false);
 
+  // Sync URL category param to state
+  useEffect(() => {
+    if (category) {
+      // category param is the category ID (e.g., 'industrial')
+      const cat = CATEGORIES.find(c => c.id === category);
+      if (cat) {
+        setSelectedCategory(cat.matchKey || cat.name);
+      }
+    } else {
+      setSelectedCategory(null);
+    }
+  }, [category]);
+
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter(p => {
-      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
+      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
                           p.description.toLowerCase().includes(search.toLowerCase());
-      const matchCategory = !selectedCategory || p.category.toLowerCase() === selectedCategory.toLowerCase();
+      const matchCategory = !selectedCategory || p.category === selectedCategory;
       const matchPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
       
       return matchSearch && matchCategory && matchPrice;
     });
   }, [search, selectedCategory, priceRange]);
+
+  const handleCategorySelect = (catId: string) => {
+    const cat = CATEGORIES.find(c => c.id === catId);
+    setSelectedCategory(cat?.matchKey || cat?.name || null);
+  };
 
   return (
     <div className="bg-white min-h-screen">
@@ -67,7 +85,7 @@ export default function Catalog() {
                 variant="outline" 
                 className="rounded-none md:hidden"
                >
-                 <Filter size={18} />
+                <Filter size={18} />
                </Button>
             </div>
           </div>
@@ -82,16 +100,16 @@ export default function Catalog() {
                <h4 className="text-[10px] font-bold uppercase tracking-widest mb-6 py-2 border-y border-zinc-100">Categories</h4>
                <div className="space-y-3">
                  <button 
-                  onClick={() => setSelectedCategory(null)}
-                  className={`block text-sm uppercase tracking-wide transition-colors ${!selectedCategory ? 'font-bold text-zinc-950' : 'text-zinc-500 hover:text-zinc-900'}`}
+                   onClick={() => handleCategorySelect('')}
+                   className={`block text-sm uppercase tracking-wide transition-colors ${!selectedCategory ? 'font-bold text-zinc-950' : 'text-zinc-500 hover:text-zinc-900'}`}
                  >
                    All Systems
                  </button>
                  {CATEGORIES.map(cat => (
                    <button 
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`block text-sm uppercase tracking-wide transition-colors ${selectedCategory === cat.id ? 'font-bold text-zinc-950' : 'text-zinc-500 hover:text-zinc-900'}`}
+                     key={cat.id}
+                     onClick={() => handleCategorySelect(cat.id)}
+                     className={`block text-sm uppercase tracking-wide transition-colors ${selectedCategory === (cat.matchKey || cat.name) ? 'font-bold text-zinc-950' : 'text-zinc-500 hover:text-zinc-900'}`}
                    >
                      {cat.name}
                    </button>
@@ -179,8 +197,8 @@ export default function Catalog() {
                  <Button onClick={() => { setSearch(''); setSelectedCategory(null); }} variant="link" className="mt-4 text-zinc-950 font-bold uppercase text-[10px] tracking-widest">
                    Clear All Filters
                  </Button>
-              </div>
-            )}
+               </div>
+             )}
           </div>
         </div>
       </div>
@@ -215,18 +233,18 @@ export default function Catalog() {
                       <div className="flex flex-wrap gap-2">
                          {CATEGORIES.map(cat => (
                            <button 
-                            key={cat.id}
-                            onClick={() => setSelectedCategory(cat.id)}
-                            className={cn(
-                              "px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all",
-                              selectedCategory === cat.id ? "bg-zinc-950 border-zinc-950 text-white" : "border-zinc-200 text-zinc-500"
-                            )}
+                             key={cat.id}
+                             onClick={() => handleCategorySelect(cat.id)}
+                             className={cn(
+                               "px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all",
+                               selectedCategory === (cat.matchKey || cat.name) ? "bg-zinc-950 border-zinc-950 text-white" : "border-zinc-200 text-zinc-500"
+                             )}
                            >
                              {cat.name}
                            </button>
                          ))}
-                      </div>
-                    </div>
+                       </div>
+                     </div>
 
                     <div>
                       <h4 className="text-[10px] font-bold uppercase tracking-widest mb-4">Price Selection</h4>

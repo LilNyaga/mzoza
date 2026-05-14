@@ -65,7 +65,7 @@ export default function Hero() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white pt-20 px-4 sm:px-6 lg:px-8"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white pt-16 sm:pt-20 px-4 sm:px-6 lg:px-8"
       id="hero-section"
     >
       {/* Simple clean background */}
@@ -98,92 +98,66 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 relative z-10">
-        {/* Left Side: Content */}
-        <div className="flex flex-col justify-center text-left space-y-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-[1px] bg-[#00539E]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.36em] text-slate-600">
-                Premium Industrial Equipment
-              </span>
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl xl:text-7xl font-display font-bold text-[#00539E] tracking-tight leading-snug">
-              JUKI
-              <br />
-              <span className="text-slate-600">Sewing Machines</span>
-              <br />
-              <span className="relative inline-block">
-                Built for
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 1 }}
-                  className="absolute bottom-1 left-0 h-0.5 bg-sky-300 -z-10 w-full" 
-                />
-              </span>
-              <br />
-              Professionals
-            </h1>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-slate-600 text-base md:text-lg max-w-lg leading-relaxed font-light"
-          >
-            High-performance industrial and professional sewing machines engineered for precision, speed, and reliability. From fashion studios to large-scale manufacturing.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center gap-4 pt-4"
-          >
-            <Button 
-              asChild 
-              className="group relative h-14 px-10 bg-[#00539E] text-white hover:bg-[#004080] rounded-none transition-all duration-300 font-bold tracking-wider text-[11px] overflow-hidden shadow-lg"
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 relative z-10">
+          {/* Left Side: Text Content */}
+          <div className="flex flex-col justify-center space-y-3 sm:space-y-4">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex flex-col space-y-3 sm:space-y-4"
             >
-              <Link to="/catalog">
-                <span className="relative z-10 flex items-center">
-                  Shop Machines <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-6 sm:w-8 h-[1px] bg-[#00539E]" />
+                <span className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.36em] text-slate-600">
+                  Premium Industrial Equipment
                 </span>
-              </Link>
-            </Button>
-          </motion.div>
-
-          {/* Trust Indicators */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-8"
-          >
-            {[
-              { label: "Financing Available", icon: <Zap size={10} /> },
-              { label: "Nationwide Delivery", icon: <Server size={10} /> },
-              { label: "Certified Support", icon: <Shield size={10} /> },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center space-x-2 text-slate-600">
-                <span className="text-[#00539E]">{item.icon}</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest">{item.label}</span>
               </div>
-            ))}
-          </motion.div>
-        </div>
+              
+              <h1 className="text-3xl md:text-4xl xl:text-5xl font-display font-bold text-[#00539E] tracking-tight leading-tight">
+                JUKI
+                <br />
+                <span className="text-slate-600">Sewing Machines</span>
+                <br />
+                <span className="relative inline-block">
+                  Built for
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 1, delay: 1 }}
+                    className="absolute bottom-1 left-0 h-0.5 bg-sky-300 -z-10 w-full" 
+                  />
+                </span>
+                <br />
+                Professionals
+              </h1>
 
-        {/* Right Side: Machine Visual */}
-        <div className="relative flex items-center justify-center lg:justify-end">
+              <p className="text-slate-600 text-sm md:text-sm leading-relaxed font-light max-w-md">
+                High-performance industrial and professional sewing machines engineered for precision, speed, and reliability.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
+                {[
+                  { label: "Financing Available", icon: <Zap size={10} /> },
+                  { label: "worldwide Delivery", icon: <Server size={10} /> },
+                  { label: "Certified Support", icon: <Shield size={10} /> },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center space-x-1 text-slate-600">
+                    <span className="text-[#00539E]">{item.icon}</span>
+                    <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-widest">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              
+            </motion.div>
+          </div>
+
+          {/* Right Side: Machine Visual (remains on same row) */}
+          <div className="relative flex items-center justify-center lg:justify-end">
             <motion.div
             style={{ x: machineX, y: machineY, rotateY: machineX }}
-            className="relative z-20 w-full max-w-[600px] aspect-square"
+            className="relative z-20 w-full max-w-[350px] sm:max-w-[500px] md:max-w-[600px] aspect-square"
           >
             {/* Spotlight backdrop */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,83,158,0.1),transparent_30%)] rounded-full blur-[120px] -z-10" />
@@ -195,7 +169,7 @@ export default function Hero() {
               transition={{ duration: 1.2, ease: "easeOut" }}
               className="relative w-full h-full"
             >
-              <div className="relative w-full h-full bg-white rounded-2xl shadow-xl border border-sky-100 p-8 flex items-center justify-center">
+              <div className="relative w-full h-full bg-white rounded-2xl shadow-xl border border-sky-100 p-4 sm:p-6 md:p-8 flex items-center justify-center">
                 <img
                   src="/assets/hero-machine.svg"
                   alt="JUKI Industrial Sewing Machine"
@@ -253,7 +227,7 @@ export default function Hero() {
           <div className="absolute inset-0 w-2 h-2 bg-[#00539E] rounded-full animate-ping" />
         </div>
         <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-          <span className="text-[#00539E]">12</span> Technicians Active
+          <span className="text-[#00539E]">8</span> Technicians Active
         </span>
       </div>
 

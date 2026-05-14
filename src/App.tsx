@@ -34,6 +34,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalog" element={<Catalog />} />
+            <Route path="/catalog/:category" element={<Catalog />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
@@ -50,24 +51,14 @@ export default function App() {
         <Footer />
         <Toaster />
         
-        {/* Mobile Bottom Nav (Quick Actions) */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200 z-50 flex items-center justify-around py-2 px-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-           <Link to="/" className="flex flex-col items-center p-2 text-zinc-950">
-             <span className="text-[10px] font-bold uppercase tracking-tighter">Home</span>
-           </Link>
-           <Link to="/catalog" className="flex flex-col items-center p-2 text-zinc-500">
-             <span className="text-[10px] font-bold uppercase tracking-tighter">Shop</span>
-           </Link>
-           <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="bg-zinc-950 text-white p-3 rounded-full -mt-8 shadow-lg border-4 border-white" aria-label="Chat via WhatsApp">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-           </a>
-           <Link to="/services" className="flex flex-col items-center p-2 text-zinc-500">
-             <span className="text-[10px] font-bold uppercase tracking-tighter">Services</span>
-           </Link>
-           <Link to="/contact" className="flex flex-col items-center p-2 text-zinc-500">
-             <span className="text-[10px] font-bold uppercase tracking-tighter">Support</span>
-           </Link>
-        </div>
+          {/* Mobile Bottom Nav (Quick Actions) */}
+          <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200 z-50 flex items-center justify-center py-2 px-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+            
+            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="bg-green-500 text-white p-2 rounded-full -mt-8 shadow-lg border-4 border-white ml-[20%]" aria-label="Chat via WhatsApp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+          
+          </div>
       </div>
     </Router>
   );

@@ -6,7 +6,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'Industrial' | 'Home' | 'Embroidery' | 'Overlock';
+  category: 'Industrial' | 'Home' | 'Embroidery' | 'Overlock' | 'Long Arm Quilting Machines' | 'Coverstitch Machines' | 'Presser Feet' | 'Serger Feet' | 'Bobbins' | 'Bobbin Cases' | 'Foot Controls' | 'Power Cords';
   brand: string;
   price: number;
   description: string;
@@ -19,7 +19,7 @@ export interface Product {
   reviewsCount: number;
   videoUrl?: string;
   usageType: 'Commercial' | 'Residential';
-  powerType: 'Servo Motor' | 'Clutch Motor' | 'Electric';
+  powerType: 'Servo Motor' | 'Clutch Motor' | 'Electric' | 'Manual';
   speed: number; // SPM
 }
 
@@ -28,6 +28,7 @@ export interface Category {
   name: string;
   description: string;
   image: string;
+  matchKey?: string;
 }
 
 export interface CartItem {
